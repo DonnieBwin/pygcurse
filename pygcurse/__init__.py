@@ -1065,6 +1065,7 @@ def pygprint(self, obj='', *objs, sep=' ', end='\n', fgcolor=None, bgcolor=None,
             if tempcurx >= self._width or ch in ('\n', '\r') or (iswide(ch) and tempcurx + 1 == self._width):
                 tempcurx = indent and x or 0
                 tempcury += 1
+                continue
             if tempcury >= self._height: # putchars() does not cause a scroll.
                 break
 
