@@ -216,7 +216,9 @@ class PygcurseSurface(object):
         while True: # the event loop
             self._inputcursormode = inputObj.insertMode and 'insert' or 'underline'
 
-            for event in pygame.event.get((KEYDOWN, KEYUP, QUIT)): # TODO - handle holding down the keys
+            #As explained in a comment in waitforkeypress, only pulling out specific event types causes the
+            #program to hang if other events happen. 
+            for event in pygame.event.get(): # TODO - handle holding down the keys
                 if event.type == QUIT:
                     pygame.quit()
                     sys.exit()
@@ -2454,7 +2456,9 @@ def waitforkeypress(fps=None):
         clock = pygame.time.Clock()
 
     while True:
-        for event in pygame.event.get([KEYDOWN, KEYUP, QUIT]):
+        #Only getting specific event types means that if the queue fills with irrelevant events
+        #such as if the user moves the mouse, the program will completely lock up!
+        for event in pygame.event.get():
             if event.type == KEYDOWN:
                 continue
             elif event.type == QUIT:
