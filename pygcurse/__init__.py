@@ -226,8 +226,12 @@ class PygcurseSurface(object):
                 except TypeError as e:
                     #However, old callbackfn()s might not expect a parameter - so if we get such an error,
                     #we just call it again without the parameter.
+                    #Gotta make sure it was this specific thing that caused the error, though.
                     if e.args[0] == "callbackfn() takes 0 positional arguments but 1 was given":
                         callbackfn()
+                    else:
+                        #if not, reraise it.
+                        raise
                     
             #As explained in a comment in waitforkeypress, only pulling out specific event types causes the
             #program to hang if other events happen. 
