@@ -204,7 +204,7 @@ class PygcurseSurface(object):
         - promptfgcolor and promptbgcolor are the foreground and background colors of the prompt.
         - whitelistchars is a string of the characters that are allowed to be entered from the keyboard. If None, then all characters (except those in the blacklist, if one is specified) are allowed.
         - blacklistchars is a string of the characters that are prohibited to be entered from the keyboard. If None, then all characters (if they are in the whitelist, if one is specified) are allowed.
-        - callbackfn is a function that is called during the input() method's loop. This can be used for any additional code that needs to be run while waiting for the user to enter text.
+        - callbackfn is a function that is called during the input() method's loop. This can be used for any additional code that needs to be run while waiting for the user to enter text. It takes one parameter, which is the PygcurseInput object currently in use.
         - fps specifies how many times per second this function should update the screen (ie, frames per second). If left at None, then input() will simply try to update as fast as possible.
         """
         if fps is not None:
@@ -216,7 +216,26 @@ class PygcurseSurface(object):
         while True: # the event loop
             self._inputcursormode = inputObj.insertMode and 'insert' or 'underline'
 
-            for event in pygame.event.get((KEYDOWN, KEYUP, QUIT)): # TODO - handle holding down the keys
+            #The only thing a callbackfn might want to have access to that it couldn't legitimately have access to
+            #through closures is our inputobj - so we hand it to it! You'll also note that we call it before processing 
+            #the pygame event queue so that it has first pick of the incoming events.
+            #Of course, we only call callbackfn if it is non-None.
+            if callbackfn:
+                try:
+                    callbackfn(inputObj)
+                except TypeError as e:
+                    #However, old callbackfn()s might not expect a parameter - so if we get such an error,
+                    #we just call it again without the parameter.
+                    #Gotta make sure it was this specific thing that caused the error, though.
+                    if e.args[0] == "callbackfn() takes 0 positional arguments but 1 was given":
+                        callbackfn()
+                    else:
+                        #if not, reraise it.
+                        raise
+                    
+            #As explained in a comment in waitforkeypress, only pulling out specific event types causes the
+            #program to hang if other events happen. 
+            for event in pygame.event.get(): # TODO - handle holding down the keys
                 if event.type == QUIT:
                     pygame.quit()
                     sys.exit()
@@ -224,9 +243,6 @@ class PygcurseSurface(object):
                     inputObj.sendkeyevent(event)
                     if inputObj.done:
                         return ''.join(inputObj.buffer)
-
-            if callbackfn is not None:
-                callbackfn()
 
             inputObj.update()
             self.update()
@@ -2454,7 +2470,9 @@ def waitforkeypress(fps=None):
         clock = pygame.time.Clock()
 
     while True:
-        for event in pygame.event.get([KEYDOWN, KEYUP, QUIT]):
+        #Only getting specific event types means that if the queue fills with irrelevant events
+        #such as if the user moves the mouse, the program will completely lock up!
+        for event in pygame.event.get():
             if event.type == KEYDOWN:
                 continue
             elif event.type == QUIT:
