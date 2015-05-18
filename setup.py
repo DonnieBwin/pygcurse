@@ -1,14 +1,9 @@
-
 from setuptools import setup
-
-
-# Dynamically calculate the version based on pygcurse.VERSION.
-version = __import__('pygcurse').__version__
 
 
 setup(
     name='Pygcurse',
-    version=version,
+    version='0.10.1',
     url='http://inventwithpython.com/pygcurse',
     author='Al Sweigart',
     author_email='al@inventwithpython.com',

@@ -10,7 +10,7 @@ https://github.com/asweigart/pygcurse
 Released under a Simplified BSD License
 """
 
-__version__ = '0.10.0'
+__version__ = '0.10.1'
 
 import time
 import sys
@@ -74,22 +74,9 @@ SOUTHEAST = 'SE'
 SOUTHWEST = 'SW'
 
 # A mapping of strings to color objects.
-colornames = {'white':   pygame.Color(255, 255, 255),
-              'yellow':  pygame.Color(255, 255,   0),
-              'fuchsia': pygame.Color(255,   0, 255),
-              'red':     pygame.Color(255,   0,   0),
-              'silver':  pygame.Color(192, 192, 192),
-              'gray':    pygame.Color(128, 128, 128),
-              'olive':   pygame.Color(128, 128,   0),
-              'purple':  pygame.Color(128,   0, 128),
-              'maroon':  pygame.Color(128,   0,   0),
-              'aqua':    pygame.Color(  0, 255, 255),
-              'lime':    pygame.Color(  0, 255,   0),
-              'teal':    pygame.Color(  0, 128, 128),
-              'green':   pygame.Color(  0, 128,   0),
-              'blue':    pygame.Color(  0,   0, 255),
-              'navy':    pygame.Color(  0,   0, 128),
-              'black':   pygame.Color(  0,   0,   0)}
+colornames = {}
+for cname in 'white yellow fuchsia red silver gray olive purple maroon aqua lime teal green blue navy black'.split(' '):
+    colornames[cname] = pygame.Color(cname)
 
 
 class PygcurseSurface(object):
@@ -217,7 +204,7 @@ class PygcurseSurface(object):
             self._inputcursormode = inputObj.insertMode and 'insert' or 'underline'
 
             #The only thing a callbackfn might want to have access to that it couldn't legitimately have access to
-            #through closures is our inputobj - so we hand it to it! You'll also note that we call it before processing 
+            #through closures is our inputobj - so we hand it to it! You'll also note that we call it before processing
             #the pygame event queue so that it has first pick of the incoming events.
             #Of course, we only call callbackfn if it is non-None.
             if callbackfn:
@@ -232,9 +219,9 @@ class PygcurseSurface(object):
                     else:
                         #if not, reraise it.
                         raise
-                    
+
             #As explained in a comment in waitforkeypress, only pulling out specific event types causes the
-            #program to hang if other events happen. 
+            #program to hang if other events happen.
             for event in pygame.event.get(): # TODO - handle holding down the keys
                 if event.type == QUIT:
                     pygame.quit()
