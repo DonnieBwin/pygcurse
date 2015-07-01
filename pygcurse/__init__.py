@@ -74,9 +74,11 @@ SOUTHEAST = 'SE'
 SOUTHWEST = 'SW'
 
 # A mapping of strings to color objects.
+#This is directly derived from the strings Pygame offers as representing
+#colors via its .colordict module so it's 99.9% guaranteed to be correct
 colornames = {}
-for cname in 'white yellow fuchsia red silver gray olive purple maroon aqua lime teal green blue navy black'.split(' '):
-    colornames[cname] = pygame.Color(cname)
+for cname, colortuple in pygame.colordict.THECOLORS.items():
+    colornames[cname] = pygame.Color(*colortuple)
 
 
 class PygcurseSurface(object):
