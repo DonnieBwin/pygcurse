@@ -9,4 +9,5 @@ Kef Schecter https://github.com/furrykef
 Luke M. https://github.com/flags
 mardiqwop https://github.com/mardiqwop
 Mariano Verdú https://github.com/verdumariano
+schilcote https://github.com/schilcote
 Wesley Werner https://github.com/wesleywerner

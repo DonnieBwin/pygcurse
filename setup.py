@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name='Pygcurse',
-    version='0.10.1',
+    version='0.10.2',
     url='http://inventwithpython.com/pygcurse',
     author='Al Sweigart',
     author_email='al@inventwithpython.com',

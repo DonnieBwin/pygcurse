@@ -1,5 +1,5 @@
 """
-Pygcurse v0.10.0 alpha
+Pygcurse
 
 Pygcurse (pronounced "pig curse") is a curses library emulator that runs on top of the Pygame framework. It provides an easy way to create text adventures, roguelikes, and console-style applications.
 Pygcurse requires Pygame to be installed. Pygame can be downloaded from http://pygame.org
@@ -10,7 +10,7 @@ https://github.com/asweigart/pygcurse
 Released under a Simplified BSD License
 """
 
-__version__ = '0.10.1'
+__version__ = '0.10.2'
 
 import time
 import sys
