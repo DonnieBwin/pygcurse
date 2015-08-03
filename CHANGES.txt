@@ -1,3 +1,3 @@
-v0.10.2, 2015/07/01 -- Accepted a PR from schilcote
+v0.10.2, 2015/07/01 -- Fixed a bad color name that caused Pygcurse to crash. Thanks schilcote!
 v0.10.1, 2015/05/17 -- Passing input object to callbackfn in PygcurseSurface.input(), fixed bug in waitforinput() filling up event queue.
 v0.10.0, 2014/08/03 -- Initial Pip release.
